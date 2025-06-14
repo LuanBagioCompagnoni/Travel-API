@@ -17,20 +17,21 @@ public class DestinationReviewsService {
         Destination destination = destinationService.getById(id);
 
         if (destination != null && review != null) {
+            destination.getReviews().add(review);
+
+            int totalReviews = destination.getReviews().size();
+
             double totalRatingsSum = destination.getReviews().stream()
                     .mapToInt(Review::getRating)
                     .sum();
 
-            int totalReviews = destination.getReviews().size();
-
             double newAverageRating = totalRatingsSum / totalReviews;
-
 
             destination.setTotalReviews(totalReviews);
             destination.setAverageRating(newAverageRating);
-
         }
 
         return destination;
     }
+
 }

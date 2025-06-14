@@ -21,12 +21,7 @@ public class DestinationController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Destination>> create(@RequestBody DestinationDTO destinationDTO) {
-        Destination destination = new Destination();
-        destination.setName(destinationDTO.getName());
-        destination.setLocation(destinationDTO.getLocation());
-        destination.setDescription(destinationDTO.getDescription());
-
-        Destination newDestination = service.create(destination);
+        Destination newDestination = service.create(destinationDTO);
 
         ApiResponse<Destination> response = new ApiResponse<>(true, newDestination, "Destination created successfully!");
 
@@ -42,7 +37,7 @@ public class DestinationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/getByName")
+    @GetMapping("/getByTerm")
     public ResponseEntity<ApiResponse<List<Destination>>> getByName(@RequestParam String term) {
         List<Destination> destinations = service.getByName(term);
 
@@ -69,5 +64,28 @@ public class DestinationController {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    // TODO: create put and patch routes
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Destination>> update(@PathVariable Long id, @RequestBody DestinationDTO destinationDTO) {
+        Destination updated = service.update(id, destinationDTO);
+
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ApiResponse<Destination> response = new ApiResponse<>(true, updated, "Destination updated successfully!");
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<Destination>> patch(@PathVariable Long id, @RequestBody DestinationDTO destinationDTO) {
+        Destination patched = service.patch(id, destinationDTO);
+
+        if (patched == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ApiResponse<Destination> response = new ApiResponse<>(true, patched, "Destination updated partially!");
+        return ResponseEntity.ok(response);
+    }
+
 }

@@ -17,8 +17,8 @@ public class DestinationReviewsController {
         this.service = service;
     }
 
-    @PatchMapping("/{id}/review")
-    public ResponseEntity<ApiResponse<Destination>> review(@PathVariable Long id, @RequestParam Review review) {
+    @PostMapping("/{id}/review")
+    public ResponseEntity<ApiResponse<Destination>> review(@PathVariable Long id, @RequestBody Review review) {
         if (review.getRating() < 1 || review.getRating() > 10) {
             ApiResponse<Destination> response = new ApiResponse<>(false, null, "Invalid rating, must be 1 to 10");
 
