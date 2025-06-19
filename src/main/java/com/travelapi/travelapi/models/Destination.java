@@ -1,16 +1,25 @@
 package com.travelapi.travelapi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Destination {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String location;
     private String description;
-    private List<Review> reviews = new ArrayList<>();
     private double averageRating;
     private int totalReviews;
+
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Review> reviews = new ArrayList<>();
+
 
     public Destination() {}
 

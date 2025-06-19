@@ -2,7 +2,7 @@ package com.travelapi.travelapi.controllers;
 
 import com.travelapi.travelapi.models.ApiResponse;
 import com.travelapi.travelapi.models.Destination;
-import com.travelapi.travelapi.models.DestinationDTO;
+import com.travelapi.travelapi.dto.DestinationDTO;
 import com.travelapi.travelapi.services.DestinationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class DestinationController {
 
     @GetMapping("/getByTerm")
     public ResponseEntity<ApiResponse<List<Destination>>> getByName(@RequestParam String term) {
-        List<Destination> destinations = service.getByName(term);
+        List<Destination> destinations = service.getByTerm(term);
 
         ApiResponse<List<Destination>> response =  new ApiResponse<>(true, destinations, null);
 

@@ -2,21 +2,29 @@ package com.travelapi.travelapi.services;
 
 import com.travelapi.travelapi.models.Destination;
 import com.travelapi.travelapi.models.Review;
+import com.travelapi.travelapi.repositories.DestinationRepository;
+import com.travelapi.travelapi.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DestinationReviewsService {
 
     private final DestinationService destinationService;
+    private final ReviewRepository reviewRepository;
+    private final DestinationRepository destinationRepository;
 
-    public DestinationReviewsService(DestinationService destinationService) {
+    public DestinationReviewsService(DestinationService destinationService, ReviewRepository reviewRepository, DestinationRepository destinationRepository) {
         this.destinationService = destinationService;
+        this.reviewRepository = reviewRepository;
+        this.destinationRepository = destinationRepository;
     }
-
     public Destination reviewDestination(Long id, Review review) {
         Destination destination = destinationService.getById(id);
 
         if (destination != null && review != null) {
+            review.setDestination(destination);
+            reviewRepository.save(review);
+
             destination.getReviews().add(review);
 
             int totalReviews = destination.getReviews().size();
@@ -29,6 +37,7 @@ public class DestinationReviewsService {
 
             destination.setTotalReviews(totalReviews);
             destination.setAverageRating(newAverageRating);
+            destinationRepository.save(destination);
         }
 
         return destination;

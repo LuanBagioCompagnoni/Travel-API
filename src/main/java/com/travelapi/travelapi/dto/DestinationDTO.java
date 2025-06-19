@@ -1,4 +1,4 @@
-package com.travelapi.travelapi.models;
+package com.travelapi.travelapi.dto;
 
 public class DestinationDTO {
     private String name;
