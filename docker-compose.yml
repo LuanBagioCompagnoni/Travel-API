@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: travel
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/seed.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
 
   app:
     build: .
@@ -28,6 +28,8 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      JWT_SECRET: C99G2laOFFgsxskhf2grYfsxpeNwwrLioqZ5CZ7lftuY5oCBEW
+
 
 volumes:
   postgres_data:

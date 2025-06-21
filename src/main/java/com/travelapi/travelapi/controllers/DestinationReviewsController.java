@@ -27,11 +27,6 @@ public class DestinationReviewsController {
 
         Destination destination = service.reviewDestination(id, review);
 
-
-        if (destination == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         ApiResponse<Destination> response = new ApiResponse<>(true, destination, "Destination Review registred successfully");
         return ResponseEntity.ok(response);
     }

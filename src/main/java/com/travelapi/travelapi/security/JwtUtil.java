@@ -1,10 +1,10 @@
-package com.travelapi.travelapi.utils;
+package com.travelapi.travelapi.security;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -16,8 +16,7 @@ public class JwtUtil {
     private final Key key;
     private final long EXPIRATION_TIME = 1000 * 60 * 60;
 
-    public JwtUtil() {
-        String secret = "C99G2laOFFgsxskhf2grYfsxpeNwwrLioqZ5CZ7lftuY5oCBEW!";
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
         byte[] keyBytes = secret.getBytes();
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -41,4 +40,14 @@ public class JwtUtil {
             return false;
         }
     }
+
+    public String extractUsername(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
 }

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/destination")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService service;
@@ -18,12 +18,20 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponse<User>> review(@Valid @RequestBody UserDTO userDTO) {
-        User newUser = service.create(userDTO);
+    @PostMapping
+    public ResponseEntity<ApiResponse<User>> create(@Valid @RequestBody UserDTO userDTO) {
+        try {
+            User newUser = service.create(userDTO);
+            ApiResponse<User> response = new ApiResponse<>(true, newUser, "User created successfully!");
+            return ResponseEntity.ok(response);
 
-        ApiResponse<User> response = new ApiResponse<>(true, newUser, "User created successfully!");
+        } catch (IllegalArgumentException e) {
+            ApiResponse<User> response = new ApiResponse<>(false, null, e.getMessage());
+            return ResponseEntity.badRequest().body(response);
 
-        return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ApiResponse<User> response = new ApiResponse<>(false, null, "Erro ao criar usuário");
+            return ResponseEntity.internalServerError().body(response);
+        }
     }
 }

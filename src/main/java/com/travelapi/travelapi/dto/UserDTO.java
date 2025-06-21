@@ -1,38 +1,24 @@
 package com.travelapi.travelapi.dto;
 
-import com.travelapi.travelapi.models.Role;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class UserDTO extends UserLoginDTO {
-    @Size(min = 3, message = "Password must be at least 3 characters")
-    private String password;
-
     @NotNull(message = "Role is required")
-    private Role role;
+    private String roleName;
 
     public UserDTO() {
     }
 
-    public UserDTO(Role role, String password) {
-        this.role = role;
-        this.password = password;
+    public UserDTO(String role, String password) {
+        this.roleName = role;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }
