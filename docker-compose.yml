@@ -8,8 +8,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
       POSTGRES_DB: travel
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
@@ -23,13 +23,12 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/travel
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_USERNAME:
+      SPRING_DATASOURCE_PASSWORD:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-      JWT_SECRET: C99G2laOFFgsxskhf2grYfsxpeNwwrLioqZ5CZ7lftuY5oCBEW
-
+      JWT_SECRET:
 
 volumes:
   postgres_data:

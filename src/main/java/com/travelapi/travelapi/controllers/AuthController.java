@@ -15,7 +15,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
         String token = authService.processLogin(userLoginDTO);
-        System.out.println(token);
 
         if (token == null) {
             return ResponseEntity.status(401).body("Invalid credentials!");
